@@ -1,11 +1,9 @@
 from binance import Client, ThreadedWebsocketManager, ThreadedDepthCacheManager
 import requests
 import json
-import pandas as pd
 from datetime import datetime, timedelta
 import sqlite3
 from time import time, sleep
-import matplotlib.pyplot as plt
 import numpy as np
 
 url = "https://www.binance.com"
@@ -195,7 +193,9 @@ if choose == 1:
     count = 1
 
     while True:
-        print('================================================================================================================================================')
+        print('=============================================================================================================================================================')
+        print("TradeSide","Count","Date","TradeType","Asset","Price","FiatUnit","TradableQuantity","MinAmount","MaxAmount","Trader","PaymentMethod","MonthlyOrder","MonthFinishRate","UserType","UserGrade")
+        print('=============================================================================================================================================================')
 
         all_prices()
 
@@ -206,7 +206,9 @@ elif choose == 2:
     count = 1
     #all_prices()
     while True:
-        print('================================================================================================================================================')
+        print('=============================================================================================================================================================')
+        print("TradeSide","Count","Date","TradeType","Asset","Price","FiatUnit","TradableQuantity","MinAmount","MaxAmount","Trader","PaymentMethod","MonthlyOrder","MonthFinishRate","UserType","UserGrade")
+        print('=============================================================================================================================================================')
         single_price("BUY")
         single_price("SELL")
         count += 1
