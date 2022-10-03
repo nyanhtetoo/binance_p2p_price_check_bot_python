@@ -14,7 +14,7 @@ endPoint = "/bapi/c2c/v2/friendly/c2c/adv/search"
 print("Choose Number")
 print("1) See all pages and all rows prices")
 print("2) See single row of first page price")
-choose = int(input("Choose: "))
+choose = int(input("Choose 1 or 2: "))
 
 def all_prices():
     #pages = 15
@@ -27,8 +27,6 @@ def all_prices():
     count =1
     while True:
         print('-------------------')
-
-        datas = []
 
         # for buy_price and sell_price table
         for page in range(pages):
@@ -179,7 +177,16 @@ def single_price(tradeType):
         print(f'{trade_side}', data[0],data[1],data[2],data[3],data[4],data[5],data[6],data[7],data[8],data[9],data[10],data[11],data[12],data[13],data[14],)
 
 if choose == 1:
-    tradeType_input = str(input('Type trade type(BUY OR SELL): '))
+    print("Choose trade type number")
+    print("1) BUY")
+    print("2) SELL")
+    choose_tradeType = int(input("Choose 1 or 2: "))
+    
+    if choose_tradeType == 1:
+        tradeType_input = "BUY"
+    elif choose_tradeType == 2:
+        tradeType_input = "SELL"
+
     pages = int(input('Type page numbers: '))
     asset = 'USDT'
     fiat = 'MMK'
