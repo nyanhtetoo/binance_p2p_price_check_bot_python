@@ -11,100 +11,96 @@ import numpy as np
 url = "https://www.binance.com"
 endPoint = "/bapi/c2c/v2/friendly/c2c/adv/search"
 
-print("--------------------------------------")
+print("=======================================")
 print("|            CHOOSE NUMBER            |")
-print("--------------------------------------")
+print("=======================================")
 print("1) See all pages and all rows prices")
 print("2) See single row of first page price")
 choose = int(input("Choose 1 or 2: "))
 
+# All Prices Function
 def all_prices():
-    #pages = 15
-    #pages = int(input('Type page numbers: '))
-    #tradeType_input = str(input('Type trade type(BUY OR SELL): '))
-    asset = 'USDT'
-    fiat = 'MMK'
-    row = 10
+    global count
+    global asset
+    global tradeType
+    global fiat
+    global pages
+    global row
 
-    count =1
-    while True:
-        print('-------------------')
+    # for buy_price and sell_price table
+    for page in range(pages):
+        page = page+1
+        #tradeType = 'BUY' # 'BUY' or 'SELL'
+        tradeType = tradeType_input
 
-        # for buy_price and sell_price table
-        for page in range(pages):
-            page = page+1
-            #tradeType = 'BUY' # 'BUY' or 'SELL'
-            tradeType = tradeType_input
+        options = {
+            'asset': asset,
+            'tradeType': tradeType,
+            'fiat': fiat,
+            'transAmount': 0,
+            'order': '',
+            'page': page,
+            'rows': row,
+            'filterType' : 'all'
+        }
 
-            options = {
-                'asset': asset,
-                'tradeType': tradeType,
-                'fiat': fiat,
-                'transAmount': 0,
-                'order': '',
-                'page': page,
-                'rows': row,
-                'filterType' : 'all'
-            }
+        r = requests.post(url+endPoint, json=options)
+        r = r.json()
+        data = r['data']
+        code = r['code']
+        message = r['message']
+        messageDetail = r['messageDetail']
+        data = r['data']
+        #total = r['total']
+        success = r['success']
 
-            r = requests.post(url+endPoint, json=options)
-            r = r.json()
-            data = r['data']
-            code = r['code']
-            message = r['message']
-            messageDetail = r['messageDetail']
-            data = r['data']
-            #total = r['total']
-            success = r['success']
+        for d in data:
 
-            for d in data:
+            tradeType = d['adv']['tradeType']
+            asset = d['adv']['asset']
+            fiatUnit = d['adv']['fiatUnit']
+            price = d['adv']['price']
+            tradableQuantity = d['adv']['tradableQuantity']
+            minSingleTransAmount = int(float(d['adv']['minSingleTransAmount']))
+            #maxSingleTransAmount = d['adv']['maxSingleTransAmount']
+            tradeMethodName = d['adv']['tradeMethods'][0]['tradeMethodName']
+            dynamicMaxSingleTransAmount = int(float(d['adv']['dynamicMaxSingleTransAmount']))
 
-                tradeType = d['adv']['tradeType']
-                asset = d['adv']['asset']
-                fiatUnit = d['adv']['fiatUnit']
-                price = d['adv']['price']
-                tradableQuantity = d['adv']['tradableQuantity']
-                minSingleTransAmount = int(float(d['adv']['minSingleTransAmount']))
-                #maxSingleTransAmount = d['adv']['maxSingleTransAmount']
-                tradeMethodName = d['adv']['tradeMethods'][0]['tradeMethodName']
-                dynamicMaxSingleTransAmount = int(float(d['adv']['dynamicMaxSingleTransAmount']))
+            nickName = d['advertiser']['nickName']
+            monthOrderCount = d['advertiser']['monthOrderCount']
+            monthFinishRate = d['advertiser']['monthFinishRate']
+            userType = d['advertiser']['userType']
+            userGrade = d['advertiser']['userGrade']
 
-                nickName = d['advertiser']['nickName']
-                monthOrderCount = d['advertiser']['monthOrderCount']
-                monthFinishRate = d['advertiser']['monthFinishRate']
-                userType = d['advertiser']['userType']
-                userGrade = d['advertiser']['userGrade']
+            date = datetime.now()
 
-                date = datetime.now()
+            data = np.array([
+                    count,
+                    date,
+                    tradeType,
+                    asset,
+                    price,
+                    fiatUnit,
+                    tradableQuantity,
+                    minSingleTransAmount,
+                    dynamicMaxSingleTransAmount,
+                    nickName,
+                    tradeMethodName,
+                    monthOrderCount,
+                    monthFinishRate,
+                    userType,
+                    userGrade
+                    ])
 
-                data = np.array([
-                        count,
-                        date,
-                        tradeType,
-                        asset,
-                        price,
-                        fiatUnit,
-                        tradableQuantity,
-                        minSingleTransAmount,
-                        dynamicMaxSingleTransAmount,
-                        nickName,
-                        tradeMethodName,
-                        monthOrderCount,
-                        monthFinishRate,
-                        userType,
-                        userGrade
-                        ])
+            if tradeType == "BUY":
+                trade_side = "SELL SIDE: "
+            elif tradeType == "SELL":
+                trade_side = "BUY SIDE: "
 
-                if tradeType == "BUY":
-                    trade_side = "SELL SIDE: "
-                elif tradeType == "SELL":
-                    trade_side = "BUY SIDE: "
+            print(trade_side, data[0],data[1],data[2],data[3],data[4],data[5],data[6],data[7],data[8],data[9],data[10],data[11],data[12],data[13],data[14],)
+            count += 1
 
-                print(trade_side, data[0],data[1],data[2],data[3],data[4],data[5],data[6],data[7],data[8],data[9],data[10],data[11],data[12],data[13],data[14],)
-                count += 1
-
-        sleep(60 - time() % 60)
-
+# Single Price Function
 def single_price(tradeType):
     global count
 
@@ -180,9 +176,9 @@ def single_price(tradeType):
 
 # For all_prices
 if choose == 1:
-    print("-----------------------")
+    print("=======================")
     print("|  CHOOSE TRADE TYPE  |")
-    print("-----------------------")
+    print("=======================")
     print("1) BUY")
     print("2) SELL")
     choose_tradeType = int(input("Choose 1 or 2: "))
@@ -198,14 +194,19 @@ if choose == 1:
     row = 10
     count = 1
 
-    all_prices()
+    while True:
+        print('=====================================================================================================================================================')
+
+        all_prices()
+
+        sleep(60 - time() % 60)
 
 # For single_price
 elif choose == 2:
     count = 1
     #all_prices()
     while True:
-        print('-------------------')
+        print('=====================================================================================================================================================')
         single_price("BUY")
         single_price("SELL")
         count += 1
