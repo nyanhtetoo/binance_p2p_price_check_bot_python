@@ -13,4 +13,4 @@ and install
 
 code 
 
-python3 -m pip python-binance, json, numpy, requests
+python3 -m pip install python-binance, json, numpy, requests
