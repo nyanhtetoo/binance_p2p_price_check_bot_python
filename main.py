@@ -178,6 +178,7 @@ def single_price(tradeType):
             trade_side = "BUY SIDE: "
         print(f'{trade_side}', data[0],data[1],data[2],data[3],data[4],data[5],data[6],data[7],data[8],data[9],data[10],data[11],data[12],data[13],data[14],)
 
+# For all_prices
 if choose == 1:
     print("-----------------------")
     print("|  CHOOSE TRADE TYPE  |")
@@ -198,6 +199,8 @@ if choose == 1:
     count = 1
 
     all_prices()
+
+# For single_price
 elif choose == 2:
     count = 1
     #all_prices()
