@@ -11,7 +11,9 @@ import numpy as np
 url = "https://www.binance.com"
 endPoint = "/bapi/c2c/v2/friendly/c2c/adv/search"
 
-print("Choose Number")
+print("--------------------------------------")
+print("|            CHOOSE NUMBER            |")
+print("--------------------------------------")
 print("1) See all pages and all rows prices")
 print("2) See single row of first page price")
 choose = int(input("Choose 1 or 2: "))
@@ -177,11 +179,13 @@ def single_price(tradeType):
         print(f'{trade_side}', data[0],data[1],data[2],data[3],data[4],data[5],data[6],data[7],data[8],data[9],data[10],data[11],data[12],data[13],data[14],)
 
 if choose == 1:
-    print("Choose trade type number")
+    print("-----------------------")
+    print("|  CHOOSE TRADE TYPE  |")
+    print("-----------------------")
     print("1) BUY")
     print("2) SELL")
     choose_tradeType = int(input("Choose 1 or 2: "))
-    
+
     if choose_tradeType == 1:
         tradeType_input = "BUY"
     elif choose_tradeType == 2:
