@@ -11,6 +11,6 @@ numpy
 Open cmd
 and install
 
-code 
+code
 
 python3 -m pip install python-binance, json, numpy, requests
