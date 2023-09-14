@@ -3,12 +3,13 @@ binance_p2p_price_check_bot_python
 
 requirements
 
+python-binance
 requests
 json
 sqlite3
 numpy
 
-Open cmd
+Open cmd/terminal
 and install
 
 code
